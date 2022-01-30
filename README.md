@@ -6,9 +6,9 @@ Source : https://odan.github.io/2019/11/05/slim4-tutorial.html
 > composer update
 
 ### Setup de la BD
-- Créez une base de données nommée `libapi`
+- Créez une base de données
 - Modifier les informations de connexion dans le fichier config/settings.php
-- Rouler le script ressource/createUserTable.sql pour tester la création d'un usager.
+- Rouler le script ressource/createUserTable.sql dans la base de données crée pour tester la création d'un usager.
 
 ### Routes disponibles
 | Méthodes | Route  | Description                      |

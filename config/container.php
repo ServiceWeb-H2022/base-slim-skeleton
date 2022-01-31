@@ -1,5 +1,6 @@
 <?php
 
+use App\Factory\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;

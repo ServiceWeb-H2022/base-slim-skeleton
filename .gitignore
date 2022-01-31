@@ -1,1 +1,4 @@
 vendor/
+.history/
+.vscode/
+/config/settings.php

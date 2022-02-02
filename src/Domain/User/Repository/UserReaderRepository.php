@@ -42,8 +42,6 @@ class UserReaderRepository
         $stmt->execute($cond);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        
         return $result ? $result: [];
 
     }

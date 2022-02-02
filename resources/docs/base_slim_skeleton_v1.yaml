@@ -58,20 +58,18 @@ paths:
                   first_name: 'Izaak'
                   last_name: 'Frear'
                   
-        '202': 
+        '404': 
           description: L'information sur l'erreur
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  errrorDescription:
-                    type: string
                   errors:
                     type: object
                 example:
-                  errrorDescription : 'Failed selecting the user associated to this ID'
                   errors:
+                    errrorDescription : 'Failed selecting the user associated to this ID'
                     userID : 'Invalid ID'
   
   /users:
@@ -112,4 +110,34 @@ paths:
                     type: integer
                 example:
                   id : 1
-  
+        '400': 
+          description: L'information sur l'erreur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                example:
+                  errors:
+                    errrorDescription : 'Failed validation of input'
+                    username : 'A unique username is requiered'
+                    email : 'A valid email is requiered'
+                    first_name : 'Firstname is requiered'
+                    last_name : 'Lastname is requiered'
+
+        '400(2)': 
+          description: L'information sur l'erreur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                example:
+                  errors:
+                    errrorDescription : 'Failed inserting the user'
+                    username : 'Username must be unique'
+               

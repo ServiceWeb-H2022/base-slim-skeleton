@@ -51,27 +51,24 @@ final class UserReader
      *
      * @param array $data The form data
      *
-     * @throws ValidationException
-     *
-     * @return void
+     * @return array
      */
     private function validateUserSelection(array $data): array
     {
-         // Here you can also use your preferred validation library
-         $errorsArr = [];
-         $rqstErrors = null;
+        // Here you can also use your preferred validation library
+        $errors = [];
+        $rqstErrors = null;
 
-         if (empty($data)) {
-            $errorsArr['errorDescription'] = 'Failed selecting the user associated to this ID';
-            $rqstErrors['userId'] = 'Innvalid ID';
-
-            $errorsArr['errors'] = $rqstErrors;
-         }
-         if ($rqstErrors) {
-            //  throw new ValidationException('Please check your input', $rqstErrors);
-         }
-         return $errorsArr;
-    }
+        if (empty($data)) {
+           $rqstErrors['errorDescription'] = 'Failed selecting the user associated to this ID';
+           $rqstErrors['userId'] = 'Invalid ID';
+        }
+        
+        $errors['errors'] = $rqstErrors ? : null;
+        // throw new ValidationException('Please check your input', $errors);
+        
+        return $errors;
+   }
 }
 
 

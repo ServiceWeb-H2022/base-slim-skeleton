@@ -4,6 +4,7 @@ namespace App\Domain\User\Service;
 
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
+use Slim\Psr7\Response;
 
 /**
  * Service.
@@ -30,49 +31,79 @@ final class UserCreator
      *
      * @param array $data The form data
      *
-     * @return int The new user ID
+     * @return array The new user ID in an array or an error array
      */
-    public function createUser(array $data): int
+    public function createUser(array $data): array
     {
         // Input validation
-        $this->validateNewUser($data);
+        $result = $this->validateNewUserInput($data);
 
-        // Insert user
-        $userId = $this->repository->insertUser($data);
-
-        // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
-
-        return $userId;
+        if(! $result['errors']){
+            // Insert user
+            $result = $this->repository->insertUser($data);
+        }
+        return $this->validateUserSelectionOutput($result);
     }
 
     /**
      * Input validation.
      *
-     * @param array $data The form data
+     * @param array $data The input data to create the user
      *
-     * @throws ValidationException
-     *
-     * @return void
+     * @return array An array containing errors if any
      */
-    private function validateNewUser(array $data): void
+    private function validateNewUserInput(array $data): array
     {
         $errors = [];
+        $inputErrors = null;
 
         // Here you can also use your preferred validation library
 
         if (empty($data['username'])) {
-            $errors['username'] = 'Input required';
+            $inputErrors['username'] = 'A unique username is requiered';
+        }
+        if (empty($data['first_name'])) {
+            $inputErrors['first_name'] = 'Firstname is requiered';
+        }
+        if (empty($data['last_name'])) {
+            $inputErrors['last_name'] = 'Lastname is requiered';
         }
 
         if (empty($data['email'])) {
-            $errors['email'] = 'Input required';
+            $inputErrors['email'] = 'A valid email is requiered';
         } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Invalid email address';
+            $inputErrors['email'] = 'A valid email is requiered';
         }
+        $inputErrors ? $errors['errors'] =  $inputErrors : null;
 
-        if ($errors) {
-            throw new ValidationException('Please check your input', $errors);
-        }
+        return $errors;
     }
+    
+    /**
+     * Output validation.
+     *
+     * @param array $data The LGBD result data
+     *
+     * @return array An array containing errors if any
+     */
+    private function validateUserSelectionOutput(array $data): array
+    {
+        // Here you can also use your preferred validation library
+
+
+        // Case of input validation errors
+        if($data['errors'])
+            return $data;
+
+        $errors = [];
+        $outputErrors = null;
+
+        if (empty($data) || $data['userId'] === 0) {
+           $outputErrors['errorDescription'] = 'Failed inserting the user';
+           $outputErrors['username'] = 'Username must be unique';
+        }
+        
+        $outputErrors ? $errors['errors'] =  $outputErrors : null;
+        return $errors;
+   }
 }

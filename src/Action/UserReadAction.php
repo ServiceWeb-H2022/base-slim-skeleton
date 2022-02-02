@@ -39,7 +39,7 @@ final class UserReadAction
         if($errors){
             return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus(202);
+            ->withStatus(404);
         }
 
         return $response

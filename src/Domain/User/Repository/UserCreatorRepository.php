@@ -29,10 +29,11 @@ class UserCreatorRepository
      *
      * @param array $user The user
      *
-     * @return int The new ID
+     * @return array The new ID in an array or an empty array
      */
-    public function insertUser(array $user): int
+    public function insertUser(array $user): array
     {
+        $result = [];
         $row = [
             'username' => $user['username'],
             'first_name' => $user['first_name'],
@@ -46,9 +47,12 @@ class UserCreatorRepository
                 last_name=:last_name, 
                 email=:email;";
 
-        $this->connection->prepare($sql)->execute($row);
+        $isInserted = $this->connection->prepare($sql)->execute($row);
 
-        return (int)$this->connection->lastInsertId();
+        if($isInserted){
+            return ["userId" => (int)$this->connection->lastInsertId()];
+        }
+        return [];
     }
 }
 

@@ -20,11 +20,7 @@ return function (App $app) {
      */
      $app->group('/users/{id:[0-9]+}', function (RouteCollectorProxy $group) {
          $group->get('', \App\Action\UserReadAction::class);
-
-         $group->put('', function(Request $request, Response $response, array $arguments): Response {
-
-            return $response;
-         });
+         $group->put('', \App\Action\UserReadAction::class);
 
          $group->delete('', function(Request $request, Response $response, array $arguments): Response {
 

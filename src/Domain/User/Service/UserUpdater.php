@@ -2,25 +2,25 @@
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Repository\UserReaderRepository;
+use App\Domain\User\Repository\UserUpdaterRepository;
 use App\Exception\ValidationException;
 
 /**
  * Service.
  */
-final class UserReader
+final class UserUpdater
 {
     /**
-     * @var UserReaderRepository
+     * @var UserUpdaterRepository
      */
     private $repository;
 
     /**
      * The constructor.
      *
-     * @param UserReaderRepository $repository The repository
+     * @param UserUpdaterRepository $repository The repository
      */
-    public function __construct(UserReaderRepository $repository)
+    public function __construct(UserUpdaterRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -29,15 +29,17 @@ final class UserReader
      * Read a user
      *
      * @param int $userId the user ID
+     * 
+     * @param array $data the associative array (field:value) to update the user
      *
-     * @return array The fetched user array
+     * @return array The updated user array
      */
-    public function selectUser(int $userId): array
+    public function selectUser(int $userId, array $data): array
     {
 
         // Select user
-        $userStd = $this->repository->selectUser($userId);
-        $errors = $this->validateUserSelection($userStd);
+        $userStd = $this->repository->updateUser($userId, $data);
+        $errors = $this->validateUserUpdate($userStd);
 
         // Logging here: User selected successfully
         //$this->logger->info(sprintf('User selected successfully: %s', $userId));
@@ -55,7 +57,7 @@ final class UserReader
      *
      * @return void
      */
-    private function validateUserSelection(array $data): array
+    private function validateUserUpdate(array $data): array
     {
          // Here you can also use your preferred validation library
          $errorsArr = [];

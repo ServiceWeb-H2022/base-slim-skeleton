@@ -24,9 +24,9 @@ final class UserReadAction
         $data = (object)$request->getAttributes();
 
         // Invoke the Domain with inputs and retain the result
-        $data = $this->userReader->selectUser($data->id);
+        $result = $this->userReader->selectUser($data->id);
 
-        return $this->respondWithFormat($data, $response);
+        return $this->respondWithFormat($result, $response);
     }
 
     private function respondWithFormat(array $data, Response $response): Response {

@@ -70,7 +70,7 @@ paths:
                   errors:
                     type: object
                 example:
-                  errrorDescription : 'Failed selecting a user'
+                  errrorDescription : 'Failed selecting the user associated to this ID'
                   errors:
                     userID : 'Invalid ID'
   

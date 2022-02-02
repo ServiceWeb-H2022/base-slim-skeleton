@@ -30,7 +30,7 @@ class UserReaderRepository
      *
      * @param int $userId The user ID
      *
-     * @return array The fetched user stdArray
+     * @return array bool The fetched user stdArray
      */
     public function selectUser(int $userId): array
     {
@@ -42,7 +42,11 @@ class UserReaderRepository
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($cond);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        
+        return $result ? $result: [];
+
     }
 }
 

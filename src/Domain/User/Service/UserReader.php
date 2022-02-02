@@ -63,7 +63,7 @@ final class UserReader
          $rqstErrors = null;
 
          if (empty($data)) {
-            $rqstErrors['failed'] = 'Selecting a user';
+            $errorsArr['errorDescription'] = 'Failed selecting a user';
             $rqstErrors['userId'] = 'Innvalid ID';
 
             $errorsArr['errors'] = $rqstErrors;

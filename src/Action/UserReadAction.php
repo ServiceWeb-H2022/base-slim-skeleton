@@ -32,10 +32,9 @@ final class UserReadAction
     private function respondWithFormat(array $data, Response $response): Response {
         
         $errors = $data['errors'] ? true : false;
-        $result = $errors ? $data['errors'] : $data;
 
         // Build the HTTP response
-        $response->getBody()->write((string)json_encode($result));
+        $response->getBody()->write((string)json_encode($data));
 
         if($errors){
             return $response

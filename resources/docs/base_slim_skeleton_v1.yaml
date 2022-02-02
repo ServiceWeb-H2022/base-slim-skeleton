@@ -27,6 +27,52 @@ paths:
                 example:
                     success: true
                     message : 'Hello world!'
+
+  /users/{id}:
+    get:
+      tags: 
+        - Usagers
+      summary: Sélection d'un usager.
+      responses:
+        '201': 
+          description: L'information de l'usager
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                example:
+                  id : 1
+                  username: 'ifrear0'
+                  email: 'ifrear0@examiner.com'
+                  first_name: 'Izaak'
+                  last_name: 'Frear'
+                  
+        '202': 
+          description: L'information sur l'erreur
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errrorDescription:
+                    type: string
+                  errors:
+                    type: object
+                example:
+                  errrorDescription : 'Failed selecting a user'
+                  errors:
+                    userID : 'Invalid ID'
   
   /users:
     post:

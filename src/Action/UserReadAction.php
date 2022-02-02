@@ -5,6 +5,7 @@ namespace App\Action;
 use App\Domain\User\Service\UserReader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Psr7\Response;
 
 final class UserReadAction
 {
@@ -25,11 +26,22 @@ final class UserReadAction
         // Invoke the Domain with inputs and retain the result
         $data = $this->userReader->selectUser($data->id);
 
-        // Transform the result into the JSON representation
-        $result = $data;
+        return $this->respondWithFormat($data, $response);
+    }
+
+    private function respondWithFormat(array $data, Response $response): Response {
+        
+        $errors = $data['errors'] ? true : false;
+        $result = $errors ? $data['errors'] : $data;
 
         // Build the HTTP response
         $response->getBody()->write((string)json_encode($result));
+
+        if($errors){
+            return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(204);
+        }
 
         return $response
             ->withHeader('Content-Type', 'application/json')

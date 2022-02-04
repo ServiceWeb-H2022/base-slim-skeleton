@@ -92,7 +92,7 @@ final class UserCreator
         $errors = [];
         $outputErrors = null;
 
-        if (empty($data) || $data['userId'] === 0) {
+        if (empty($data)) {
            $outputErrors['errorDescription'] = 'Failed inserting the user';
            $outputErrors['username'] = 'Username must be unique';
            $errors['errors'] =  $outputErrors;

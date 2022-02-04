@@ -34,6 +34,7 @@ class UserUpdaterRepository
     public function UpdateUser(array $user): array
     {
         try {
+            $result = [];
 
             $row = [];
             foreach ($user as $key => $value) {

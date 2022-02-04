@@ -60,10 +60,10 @@ final class UserReader
         $errors = [];
         $rqstErrors = null;
 
-        if (empty($data)) {
+        if (empty($data) ) {
            $rqstErrors['errorDescription'] = 'Failed selecting the user associated to this ID';
-           $rqstErrors['users/{id}'] = 'Invalid user id';
-           $errors['errors'] =  $rqstErrors;
+           $rqstErrors['users/{id}'] = 'User with this ID not found';
+           $errors['notFound-errors'] =  $rqstErrors;
         }
         // throw new ValidationException('Please check your input', $errors);
         

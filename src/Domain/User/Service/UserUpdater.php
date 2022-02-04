@@ -38,7 +38,7 @@ final class UserUpdater
         // Input validation
         $result = $this->validateUserInput($data);
 
-        if(! $result['errors']){
+        if(! $result['validation-errors']){
             // Update user
             $result = $this->updateRepository->UpdateUser($data);
             $result =  $this->validateUserUpdateOutput($result);
@@ -58,17 +58,13 @@ final class UserUpdater
         $errors = [];
         $inputErrors = null;
 
-        if($data['id'] == 0){
-            $inputErrors['users/{id}'] = 'Invalid user id';
-        }
-
         if($data['email']){
             if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
                 $inputErrors['email'] = 'Email must be valid';
             }
         }
        
-        $inputErrors ? $errors['errors'] =  $inputErrors : null;
+        $inputErrors ? $errors['validation-errors'] =  $inputErrors : null;
 
         return $errors;
     }
@@ -88,7 +84,7 @@ final class UserUpdater
         if (empty($data)) {
            $outputErrors['errorDescription'] = 'Failed Updating the user';
            $outputErrors['username'] = 'Username must be unique';
-           $errors['errors'] =  $outputErrors;
+           $errors['validation-errors'] =  $outputErrors;
         }
         return $outputErrors ? $errors : $data;
    }

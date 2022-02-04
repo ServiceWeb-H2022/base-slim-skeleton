@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
+  version: 1.0.3
   title: Base-Slim-Skeleton
-  description: Structure de base d'un api créé dans le cadre du cours Services Web H2022
+  description: Structure de base d'un api créé dans le cadre du cours `Services Web H2022`
   
 servers: 
   - url: http://localhost/base-slim-skeleton
@@ -28,116 +28,318 @@ paths:
                     success: true
                     message : 'Hello world!'
 
-  /users/{id}:
+  /docs:
     get:
-      tags: 
-        - Usagers
-      summary: Sélection d'un usager.
+      tags:
+        - Général
+      summary: Renvoit la page web de documentation de l'API
       responses:
-        '201': 
-          description: L'information de l'usager
+        '200': 
+          description: 
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
-                  username:
+                  success:
+                    type: boolean
+                  message:
                     type: string
-                  email:
+                example:
+                    success: true
+                    message : 'Hello world!'
+
+  /users:
+      get:
+        tags: 
+          - All Get
+          - Usagers
+        summary: Selection d'uagsers multiple.
+        requestBody:
+          description: Les informations de l'usager à créer
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
                     type: string
                   first_name:
                     type: string
                   last_name:
                     type: string
+                  email:
+                    type: string
                 example:
-                  id : 1
-                  username: 'ifrear0'
-                  email: 'ifrear0@examiner.com'
-                  first_name: 'Izaak'
-                  last_name: 'Frear'
-                  
-        '404': 
-          description: L'information sur l'erreur
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                example:
-                  errors:
-                    errrorDescription : 'Failed selecting the user associated to this ID'
-                    userID : 'Invalid ID'
-  
-  /users:
-    post:
-      tags: 
-        - Usagers
-      summary: Création d'un usager.
-      requestBody:
-        description: Les informations de l'usager à créer
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                email:
-                  type: string
-              example:
-                username : 'mathF'
-                first_name: 'Mathieu'
-                last_name: 'Fréchette'
-                email: 'frechette.mathieu@cegepvicto.ca'
-      responses:
-        '201': 
-          description: Le id de l'usager créé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user_id:
-                    type: integer
-                example:
-                  id : 1
-        '400': 
-          description: L'information sur l'erreur
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  errors:
-                    type: object
-                example:
-                  errors:
-                    errrorDescription : 'Failed validation of input'
-                    username : 'A unique username is requiered'
-                    email : 'A valid email is requiered'
-                    first_name : 'Firstname is requiered'
-                    last_name : 'Lastname is requiered'
+                  username : 'mathF'
+                  first_name: 'Mathieu'
+                  last_name: 'Fréchette'
+                  email: 'frechette.mathieu@cegepvicto.ca'
+        responses:
+          '201': 
+            description: Le id de l'usager créé
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                  example:
+                    id : 1
+          '400': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed validation of input'
+                      username : 'A unique username is requiered'
+                      email : 'A valid email is requiered'
+                      first_name : 'Firstname is requiered'
+                      last_name : 'Lastname is requiered'
 
-        '400(2)': 
-          description: L'information sur l'erreur
+          '400(2)': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed inserting the user'
+                      username : 'Username must be unique'
+      post:
+        tags: 
+          - All Post
+          - Usagers
+        summary: Création d'un usager.
+        requestBody:
+          description: Les informations de l'usager à créer
+          required: true
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  errors:
-                    type: object
+                  username:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
                 example:
-                  errors:
-                    errrorDescription : 'Failed inserting the user'
-                    username : 'Username must be unique'
-               
+                  username : 'mathF'
+                  first_name: 'Mathieu'
+                  last_name: 'Fréchette'
+                  email: 'frechette.mathieu@cegepvicto.ca'
+        responses:
+          '201': 
+            description: Le id de l'usager créé
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                  example:
+                    id : 1
+          '400': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed validation of input'
+                      username : 'A unique username is requiered'
+                      email : 'A valid email is requiered'
+                      first_name : 'Firstname is requiered'
+                      last_name : 'Lastname is requiered'
+
+          '400(2)': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed inserting the user'
+                      username : 'Username must be unique'                      
+
+  /users/{id}:
+      put:
+        tags: 
+          - All Put
+          - Usagers
+        summary: Mise à jour d'un usager.
+        requestBody:
+          description: Les informations de l'usager à modifier
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+                  email:
+                    type: string
+                example:
+                  username : 'mathF'
+                  first_name: 'Mathieu'
+                  last_name: 'Fréchette'
+                  email: 'frechette.mathieu@cegepvicto.ca'
+        responses:
+          '201': 
+            description: Le id de l'usager créé
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                  example:
+                    id : 1
+          '400': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed validation of input'
+                      username : 'A unique username is requiered'
+                      email : 'A valid email is requiered'
+                      first_name : 'Firstname is requiered'
+                      last_name : 'Lastname is requiered'
+
+          '400(2)': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed inserting the user'
+                      username : 'Username must be unique'
+
+      get:
+        tags:
+          - All Get
+          - Usagers
+        summary: Sélection d'un usager.
+        responses:
+          '201': 
+            description: L'information de l'usager
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    username:
+                      type: string
+                    email:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                  example:
+                    id : 1
+                    username: 'ifrear0'
+                    email: 'ifrear0@examiner.com'
+                    first_name: 'Izaak'
+                    last_name: 'Frear'
+                    
+          '404': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed selecting the user associated to this ID'
+                      userID : 'Invalid ID'
+      delete:
+        tags:
+          - All Delete
+          - Usagers
+        summary: Suppression d'un usager.
+        responses:
+          '201': 
+            description: L'information de l'usager
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    username:
+                      type: string
+                    email:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                  example:
+                    id : 1
+                    username: 'ifrear0'
+                    email: 'ifrear0@examiner.com'
+                    first_name: 'Izaak'
+                    last_name: 'Frear'
+                    
+          '404': 
+            description: L'information sur l'erreur
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      type: object
+                  example:
+                    errors:
+                      errrorDescription : 'Failed selecting the user associated to this ID'
+                      userID : 'Invalid ID'  

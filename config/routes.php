@@ -1,12 +1,8 @@
 <?php
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use App\Middleware\BasicAuthMiddleware;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\App;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 
 return function (App $app) {
 
@@ -16,9 +12,15 @@ return function (App $app) {
     // Documentation de l'api
     $app->get('/docs', \App\Action\Docs\SwaggerUiAction::class);
 
-    // Insertion d'un usager
-    $app->post('/users/', \App\Action\UserCreateAction::class);
 
+    /**
+     * GET	    /users/	 Selection des usagers
+     * POST	    /users/	 Insertion d'un usager
+     */
+    $app->group('/users}', function (RouteCollectorProxy $group) {
+        $group->get('/{order}', \App\Action\UserCreateAction::class);
+        $group->post('/users', \App\Action\UserCreateAction::class);
+    });
 
     /**
      * GET	    /users/{id}	Lister seulement l'usager avec le id en paramètre

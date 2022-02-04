@@ -1,17 +1,48 @@
-openapi: 3.0.0
+openapi: 3.0.1
 info:
   version: 1.0.3
   title: Base-Slim-Skeleton
   description: Structure de base d'un api créé dans le cadre du cours `Services Web H2022`
-  
+  contact:
+    email: "webdevteam@rvdprojects.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "http://localhost/base-slim-skeleton/"
+basePath: ""
+
 servers: 
+  - url: https://localhost/base-slim-skeleton
   - url: http://localhost/base-slim-skeleton
+
+tags:
+- name: All Get
+  description: All get endpoints
+- name: All Post
+  description: All post endpoints
+- name: All Put
+  description: All put endpoints
+- name: All Delete
+  description: All delete endpoints
+
+- name: General
+  description: All about global endpoints
+- name: Users
+  description: All about users endpoints
+
+
+
+schemes:
+- "https"
+- "http"
 paths:
   /:
     get:
       tags:
-        - Général
-      summary: Message de bienvenue
+        - All Get
+        - General
+      summary: Message de bienvenue 
+      operationId: getHome
       responses:
         '200': 
           description: 
@@ -19,109 +50,56 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
-                example:
-                    success: true
-                    message : 'Hello world!'
+                $ref: '#/components/schemas/Welcome'
+              example:
+                success: true
+                message : 'Hello world!'
+                
 
   /docs:
     get:
       tags:
-        - Général
+        - All Get
+        - General
       summary: Renvoit la page web de documentation de l'API
       responses:
         '200': 
-          description: 
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
-                example:
-                    success: true
-                    message : 'Hello world!'
+          description: HTML
+            
 
   /users:
       get:
         tags: 
           - All Get
-          - Usagers
+          - Users
         summary: Selection d'uagsers multiple.
-        requestBody:
-          description: Les informations de l'usager à créer
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  first_name:
-                    type: string
-                  last_name:
-                    type: string
-                  email:
-                    type: string
-                example:
-                  username : 'mathF'
-                  first_name: 'Mathieu'
-                  last_name: 'Fréchette'
-                  email: 'frechette.mathieu@cegepvicto.ca'
+        description: ""
         responses:
           '201': 
-            description: Le id de l'usager créé
+            description: Une liste d'usagers
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    user_id:
-                      type: integer
-                  example:
-                    id : 1
+                  type: array  
+                  items:
+                    $ref: '#/components/schemas/User'
           '400': 
-            description: L'information sur l'erreur
+            description: Erreur de validation lors de la requête
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed validation of input'
-                      username : 'A unique username is requiered'
-                      email : 'A valid email is requiered'
-                      first_name : 'Firstname is requiered'
-                      last_name : 'Lastname is requiered'
+                  $ref: '#/components/schemas/UserValidationErrors'
 
-          '400(2)': 
-            description: L'information sur l'erreur
+          '404': 
+            description: Aucun usager trouvé selon les critères
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed inserting the user'
-                      username : 'Username must be unique'
+                  $ref: '#/components/schemas/UserNotFoundErrors'
       post:
         tags: 
           - All Post
-          - Usagers
+          - Users
         summary: Création d'un usager.
         requestBody:
           description: Les informations de l'usager à créer
@@ -139,11 +117,6 @@ paths:
                     type: string
                   email:
                     type: string
-                example:
-                  username : 'mathF'
-                  first_name: 'Mathieu'
-                  last_name: 'Fréchette'
-                  email: 'frechette.mathieu@cegepvicto.ca'
         responses:
           '201': 
             description: Le id de l'usager créé
@@ -154,10 +127,8 @@ paths:
                   properties:
                     user_id:
                       type: integer
-                  example:
-                    id : 1
           '400': 
-            description: L'information sur l'erreur
+            description: Erreur de validation lors de la requête
             content:
               application/json:
                 schema:
@@ -165,33 +136,14 @@ paths:
                   properties:
                     errors:
                       type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed validation of input'
-                      username : 'A unique username is requiered'
-                      email : 'A valid email is requiered'
-                      first_name : 'Firstname is requiered'
-                      last_name : 'Lastname is requiered'
-
-          '400(2)': 
-            description: L'information sur l'erreur
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed inserting the user'
-                      username : 'Username must be unique'                      
+        security:
+        x-codegen-request-body-name: body
 
   /users/{id}:
       put:
         tags: 
           - All Put
-          - Usagers
+          - Users
         summary: Mise à jour d'un usager.
         requestBody:
           description: Les informations de l'usager à modifier
@@ -199,68 +151,39 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  first_name:
-                    type: string
-                  last_name:
-                    type: string
-                  email:
-                    type: string
-                example:
-                  username : 'mathF'
-                  first_name: 'Mathieu'
-                  last_name: 'Fréchette'
-                  email: 'frechette.mathieu@cegepvicto.ca'
+                  $ref: '#/components/schemas/UserUpdate'
         responses:
           '201': 
-            description: Le id de l'usager créé
+            description: L'information de l'usager mis à jour
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    user_id:
-                      type: integer
-                  example:
-                    id : 1
-          '400': 
-            description: L'information sur l'erreur
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed validation of input'
-                      username : 'A unique username is requiered'
-                      email : 'A valid email is requiered'
-                      first_name : 'Firstname is requiered'
-                      last_name : 'Lastname is requiered'
+                  $ref: '#/components/schemas/User'
 
-          '400(2)': 
-            description: L'information sur l'erreur
+          '400': 
+            description: Erreur de validation lors de la requête
             content:
               application/json:
                 schema:
                   type: object
                   properties:
                     errors:
-                      type: object
-                  example:
+                      $ref: '#/components/schemas/UserValidationErrors'
+
+          '404':
+            description: Aucun usager trouvé selon les critères
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
                     errors:
-                      errrorDescription : 'Failed inserting the user'
-                      username : 'Username must be unique'
+                      $ref: '#/components/schemas/UserNotFoundErrors'
 
       get:
         tags:
           - All Get
-          - Usagers
+          - Users
         summary: Sélection d'un usager.
         responses:
           '201': 
@@ -268,42 +191,18 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    username:
-                      type: string
-                    email:
-                      type: string
-                    first_name:
-                      type: string
-                    last_name:
-                      type: string
-                  example:
-                    id : 1
-                    username: 'ifrear0'
-                    email: 'ifrear0@examiner.com'
-                    first_name: 'Izaak'
-                    last_name: 'Frear'
+                  $ref: '#/components/schemas/User'
                     
           '404': 
-            description: L'information sur l'erreur
+            description: Aucun usager trouvé selon les critères
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed selecting the user associated to this ID'
-                      userID : 'Invalid ID'
+                  $ref: '#/components/schemas/UserNotFoundErrors'
       delete:
         tags:
           - All Delete
-          - Usagers
+          - Users
         summary: Suppression d'un usager.
         responses:
           '201': 
@@ -311,35 +210,82 @@ paths:
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    username:
-                      type: string
-                    email:
-                      type: string
-                    first_name:
-                      type: string
-                    last_name:
-                      type: string
-                  example:
-                    id : 1
-                    username: 'ifrear0'
-                    email: 'ifrear0@examiner.com'
-                    first_name: 'Izaak'
-                    last_name: 'Frear'
+                  $ref: '#/components/schemas/User'
                     
           '404': 
-            description: L'information sur l'erreur
+            description: Aucun usager trouvé selon les critères
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    errors:
-                      type: object
-                  example:
-                    errors:
-                      errrorDescription : 'Failed selecting the user associated to this ID'
-                      userID : 'Invalid ID'  
+                  $ref: '#/components/schemas/UserNotFoundErrors'
+
+
+
+
+
+components:
+  schemas:
+
+    Welcome:
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        first_Name:
+          type: string
+        last_Name:
+          type: string
+        email:
+          type: string
+
+    UserUpdate:
+      type: object
+      properties: 
+        username:
+          type: string
+        first_Name:
+          type: string
+        last_Name:
+          type: string
+        email:
+          type: string
+
+    UserNotFoundErrors:
+      type: object
+      properties:
+        errrorDescription:
+          type: string
+        users/{filter}:
+          type: string
+        users/{order}:
+          type: string
+        users/{include}:
+          type: string
+        users/{exclude}:
+          type: string
+        users/{limit}:
+          type: string
+    
+    UserValidationErrors:
+      type: object
+      properties:
+        errrorDescription:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string

@@ -36,7 +36,6 @@ final class UserReader
      */
     public function selectUser(int $userId): array
     {
-
         // Select user
         $result = $this->repository->selectUser($userId);
         $result = $this->validateUserSelection($result);

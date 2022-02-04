@@ -2,7 +2,6 @@
 
 namespace App\Action;
 
-use App\Domain\User\Repository\UserReaderRepository;
 use App\Domain\User\Service\UserCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

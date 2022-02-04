@@ -47,12 +47,14 @@ class UserCreatorRepository
                 last_name=:last_name, 
                 email=:email;";
 
-        $isInserted = $this->connection->prepare($sql)->execute($row);
-
-        if($isInserted){
-            return ["userId" => (int)$this->connection->lastInsertId()];
+        try {
+            //code...
+            $this->connection->prepare($sql)->execute($row);
+        } catch (\Throwable $th) {
+            return [];
         }
-        return [];
+        
+        return ["userId" => (int)$this->connection->lastInsertId()];    
     }
 }
 

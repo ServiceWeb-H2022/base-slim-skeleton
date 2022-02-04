@@ -41,8 +41,9 @@ final class UserCreator
         if(! $result['errors']){
             // Insert user
             $result = $this->repository->insertUser($data);
+            $result =  $this->validateUserSelectionOutput($result);
         }
-        return $this->validateUserSelectionOutput($result);
+        return $result;
     }
 
     /**
@@ -90,20 +91,15 @@ final class UserCreator
     {
         // Here you can also use your preferred validation library
 
-
-        // Case of input validation errors
-        if($data['errors'])
-            return $data;
-
         $errors = [];
         $outputErrors = null;
 
         if (empty($data) || $data['userId'] === 0) {
            $outputErrors['errorDescription'] = 'Failed inserting the user';
            $outputErrors['username'] = 'Username must be unique';
+           $errors['errors'] =  $outputErrors;
         }
         
-        $outputErrors ? $errors['errors'] =  $outputErrors : null;
-        return $errors;
+        return $outputErrors ? $errors : $data;
    }
 }

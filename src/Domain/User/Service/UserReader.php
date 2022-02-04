@@ -5,6 +5,8 @@ namespace App\Domain\User\Service;
 use App\Domain\User\Repository\UserReaderRepository;
 use App\Exception\ValidationException;
 
+use function PHPUnit\Framework\isEmpty;
+
 /**
  * Service.
  */
@@ -36,13 +38,13 @@ final class UserReader
     {
 
         // Select user
-        $userStd = $this->repository->selectUser($userId);
-        $errors = $this->validateUserSelection($userStd);
+        $result = $this->repository->selectUser($userId);
+        $result = $this->validateUserSelection($result);
 
         // Logging here: User selected successfully
         //$this->logger->info(sprintf('User selected successfully: %s', $userId));
 
-        return $errors ? $errors : $userStd;
+        return $result;
     }
 
 
@@ -62,12 +64,11 @@ final class UserReader
         if (empty($data)) {
            $rqstErrors['errorDescription'] = 'Failed selecting the user associated to this ID';
            $rqstErrors['userId'] = 'Invalid ID';
+           $errors['errors'] =  $rqstErrors;
         }
-        
-        $errors['errors'] = $rqstErrors ? : null;
         // throw new ValidationException('Please check your input', $errors);
         
-        return $errors;
+        return $rqstErrors ? $errors : $data;
    }
 }
 

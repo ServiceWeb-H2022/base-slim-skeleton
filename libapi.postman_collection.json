@@ -119,12 +119,12 @@
 	"variable": [
 		{
 			"key": "localUrl",
-			"value": "http://localhost/base-slim-skeleton/",
+			"value": "http://localhost/base-slim-skeleton",
 			"type": "string"
 		},
 		{
 			"key": "prodUrl",
-			"value": "http://libapi2022.rvdprojects.com/",
+			"value": "http://libapi2022.rvdprojects.com",
 			"type": "string"
 		}
 	]

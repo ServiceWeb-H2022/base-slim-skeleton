@@ -42,7 +42,7 @@ return [
     
         $host = $settings['host'];
         $dbname = $settings['database'];
-        $usagername = $settings['username'];
+        $username = $settings['username'];
         $password = $settings['password'];
         $charset = $settings['charset'];
         $flags = $settings['flags'];

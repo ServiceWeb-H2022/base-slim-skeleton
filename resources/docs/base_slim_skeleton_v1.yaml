@@ -4,6 +4,7 @@ info:
   title: Les bases API avec SLIM framework
   description: Structure de base d'un api créé dans le cadre du cours `Services Web H2022`
   contact:
+    name: RVÐ - Developper
     email: webdevteam@rvdprojects.com
     url: https://rvdprojects.com
   license:

@@ -31,7 +31,7 @@ final class UserReadAction
 
 
     /**
-     * @param array $data Les données qui seront utiliser pour la réponse
+     * @param array $data Les données qui seront utilisées pour la réponse
      * 
      * @param Response $response l'objet réponse pour la requête en cours
      * 

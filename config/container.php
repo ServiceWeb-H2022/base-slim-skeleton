@@ -48,7 +48,7 @@ return [
         $flags = $settings['flags'];
         $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
     
-        return new PDO($dsn, $usagername, $password, $flags);
+        return new PDO($dsn, $username, $password, $flags);
     },
     
     LoggerFactory::class => function (ContainerInterface $container) {

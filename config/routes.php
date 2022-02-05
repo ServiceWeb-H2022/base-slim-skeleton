@@ -28,7 +28,7 @@ return function (App $app) {
      $app->group('/users/{id:[0-9]+}', function (RouteCollectorProxy $group) {
          $group->get('', \App\Action\UserReadAction::class);
          $group->put('', \App\Action\UserUpdateAction::class);
-         $group->delete('', \App\Action\UserUpdateAction::class);
+         $group->delete('', \App\Action\UserDeleteAction::class);
      });
 
 

@@ -36,7 +36,7 @@ class UserReaderRepository
         $cond = [
             $usagerId
         ];
-        $sql = "SELECT * FROM USERS WHERE id= ?;";
+        $sql = "SELECT * FROM users WHERE id= ?;";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($cond);

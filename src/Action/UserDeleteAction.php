@@ -3,20 +3,21 @@
 namespace App\Action;
 
 use App\Domain\User\Service\UserReader;
+use App\Domain\User\Service\UserDeleter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Response;
 
-final class UserUpdateAction
+final class UserDeleteAction
 {
-    private $usagerUpdater;
+    private $usagerDeleter;
     private $usagerReader;
 
     public function __construct(
-        UserUpdater $usagerUpdater,
+        UserDeleter $usagerDeleter,
         UserReader $usagerReader)
     {
-        $this->userUpdater = $usagerUpdater;
+        $this->userDeleter = $usagerDeleter;
         $this->userReader = $usagerReader;
     }
 
@@ -24,27 +25,29 @@ final class UserUpdateAction
         ServerRequestInterface $request, 
         ResponseInterface $response
     ): ResponseInterface {
+
         // Collecte les données à partir de la requête HTTP
         $data = (array)$request->getParsedBody();
         $data['id'] = (int)$request->getAttribute('id');
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
-        $updateResult = $this->userReader->selectUser($data['id']);
-        
-        if( ! $updateResult['notFound-errors'] )
-            $updateResult = $this->userUpdater->updateUser($data);
+        $selectResult = $this->userReader->selectUser($data['id']);
 
-        if( ! $updateResult['validation-errors'] )
-            $updateResult = $this->userReader->selectUser($data['id']);
+        // Si l'usager à été trouver -> Delete
+        if( ! $selectResult['notFound-errors'] )
+            $deleteResult = $this->userDeleter->deleteUser($data);
 
+        // Si l'usager à été supprimé -> Select
+        if( ! $deleteResult['validation-errors'] )
+            $deleteResult = $selectResult;
 
-        // Construit la réponse HTTP
-        return $this->respondWithFormat($updateResult, $response);
+        // Construit la réponse Http selon des "codes" d'erreurs retournés précédemment
+        return $this->respondWithFormat($deleteResult, $response);
     }
 
 
     /**
-     * @param array $data Les données qui seront utiliser pour la réponse
+     * @param array $data Les données qui seront utilisées pour la réponse
      * 
      * @param Response $response l'objet réponse pour la requête en cours
      * 
@@ -58,23 +61,23 @@ final class UserUpdateAction
 
         if($data['validation-errors']){
             // Logging here: User creation failed
-            //$this->logger->info(sprintf('User was not Updated: %s', $resultat));
+            //$this->logger->info(sprintf('User was not Deleted: %s', $resultat));
             return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus(400);
+            ->withStatus(404);
         }
 
         if($data['notFound-errors']){
             // Logging here: User creation failed
-            //$this->logger->info(sprintf('User was not Updated: %s', $resultat));
+            //$this->logger->info(sprintf('User was not Deleted: %s', $resultat));
             return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(404);
         }
 
 
-        // Logging here: User Updated successfully
-        //$this->logger->info(sprintf('User Updated successfully: %s', $resultat));
+        // Logging here: User Deleted successfully
+        //$this->logger->info(sprintf('User Deleted successfully: %s', $resultat));
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200);

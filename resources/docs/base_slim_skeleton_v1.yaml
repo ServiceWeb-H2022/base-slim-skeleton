@@ -4,11 +4,12 @@ info:
   title: Les bases API avec SLIM framework
   description: Structure de base d'un api créé dans le cadre du cours `Services Web H2022`
   contact:
-    email: "webdevteam@rvdprojects.com"
+    email: webdevteam@rvdprojects.com
+    url: https://rvdprojects.com
   license:
     name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "http://localhost/base-slim-skeleton/"
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: https://libapi2022.rvdprojects.com
 basePath: ""
 
 servers: 
@@ -41,20 +42,10 @@ paths:
       tags:
         - All Get
         - General
-      summary: Message de bienvenue 
-      operationId: getHome
+      summary: Renvoit la page web de documentation de l'API
       responses:
         '200': 
-          description: 
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/Welcome'
-              example:
-                success: true
-                message : 'Hello world!'
-                
+          description: HTML              
 
   /docs:
     get:

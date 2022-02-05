@@ -5,7 +5,7 @@ error_reporting(0);
 ini_set('display_errors', '0');
 
 // Fuseau horraire
-date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set('America/Toronto');
 
 // Array des paramêtres
 $settings = [];

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   version: 1.0.4
-  title: Base-Slim-Skeleton
+  title: Les bases API avec SLIM framework
   description: Structure de base d'un api créé dans le cadre du cours `Services Web H2022`
   contact:
     email: "webdevteam@rvdprojects.com"
@@ -12,8 +12,8 @@ host: "http://localhost/base-slim-skeleton/"
 basePath: ""
 
 servers: 
-  - url: https://localhost/base-slim-skeleton
-  - url: http://localhost/base-slim-skeleton
+  - url: https://libapi2022.rvdprojects.com
+  - url: http://libapi2022.rvdprojects.com
 
 tags:
 - name: All Get

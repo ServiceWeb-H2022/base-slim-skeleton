@@ -6,19 +6,23 @@ use Slim\Middleware\ErrorMiddleware;
 use Slim\Views\TwigMiddleware;
 
 return function (App $app) {
-    // Parse json, form data and xml
+    // Ajout d'un middleware pour analyser: json, form data et xml
     $app->addBodyParsingMiddleware();
 
     $app->add(TwigMiddleware::class);
 
     // Permettre les CORS
     $app->add(\App\Middleware\CorsMiddleware::class);
-    // Add the Slim built-in routing middleware
+
+    // Ajoute le middleware natif de SLIM pour le routage
     $app->addRoutingMiddleware();
 
-    // Add app base path
+    // Ajoute la configuration d'un chemin de base
     $app->add(BasePathMiddleware::class);
 
-    // Catch exceptions and errors
+
+    
+    // Permet de récupérer les érreurs et exceptions
+    // !!!! DOIT TOUJOURS ÊTRE LE DERNIER MIDDLEWARE !!!! \\
     $app->add(ErrorMiddleware::class);
 };

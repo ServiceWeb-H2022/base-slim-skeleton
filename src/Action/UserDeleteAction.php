@@ -3,7 +3,6 @@
 namespace App\Action;
 
 use App\Domain\User\Service\UserReader;
-use App\Domain\User\Service\UserUpdater;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Response;
@@ -32,18 +31,14 @@ final class UserUpdateAction
         // Invoque le Domaine avec les données en entrée et retourne le résultat
         $updateResult = $this->userReader->selectUser($data['id']);
         
-
-        // Si l'usager à été trouver -> Update
         if( ! $updateResult['notFound-errors'] )
             $updateResult = $this->userUpdater->updateUser($data);
 
-
-        // Si l'usager à été mise à jour -> Select
         if( ! $updateResult['validation-errors'] )
             $updateResult = $this->userReader->selectUser($data['id']);
 
 
-        // Construit la réponse Http selon des "codes" d'erreurs retournés précédemment
+        // Construit la réponse HTTP
         return $this->respondWithFormat($updateResult, $response);
     }
 

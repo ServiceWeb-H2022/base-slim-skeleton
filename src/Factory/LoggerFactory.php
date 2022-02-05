@@ -34,7 +34,7 @@ final class LoggerFactory
     private $testLogger;
 
     /**
-     * The constructor.
+     * Le constructeur.
      *
      * @param array<mixed> $settings The settings
      */

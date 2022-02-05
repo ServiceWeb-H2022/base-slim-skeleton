@@ -15,9 +15,9 @@ final class UserCreator
     private $repository;
 
     /**
-     * The constructor.
+     * Le constructeur.
      *
-     * @param UserCreatorRepository $repository The repository
+     * @param UserCreatorRepository $repository Le "respository"
      */
     public function __construct(UserCreatorRepository $repository)
     {
@@ -25,53 +25,53 @@ final class UserCreator
     }
 
     /**
-     * Create a new user.
+     * Crée un nouveau usager.
      *
-     * @param array $data The form data
+     * @param array $data L'array de données
      *
-     * @return array The new user ID in an array or an error array
+     * @return array L'id de l'usager dans un array ou un array d'erreurs
      */
     public function createUser(array $data): array
     {
-        // Input validation
-        $result = $this->validateNewUserInput($data);
+        // Validation d'entrées
+        $resultat = $this->validateNewUserInput($data);
 
-        if(! $result['errors']){
-            // Insert user
-            $result = $this->repository->insertUser($data);
-            $result =  $this->validateUserSelectionOutput($result);
+        if(! $resultat['errors']){
+            // Insertion de l'usager
+            $resultat = $this->repository->insertUser($data);
+
+            // Validation des sorties
+            $resultat =  $this->validateUserSelectionOutput($resultat);
         }
-        return $result;
+        return $resultat;
     }
 
     /**
-     * Input validation.
+     * Validation d'entrées.
      *
-     * @param array $data The input data to create the user
+     * @param array $data Les données de l'usager à l'entrée
      *
-     * @return array An array containing errors if any
+     * @return array Un array contenant les erreurs ou $data
      */
     private function validateNewUserInput(array $data): array
     {
         $errors = [];
         $inputErrors = null;
 
-        // Here you can also use your preferred validation library
-
         if (empty($data['username'])) {
-            $inputErrors['username'] = 'A unique username is requiered';
+            $inputErrors['username'] = 'Le champ username unique est requis';
         }
         if (empty($data['first_name'])) {
-            $inputErrors['first_name'] = 'Firstname is requiered';
+            $inputErrors['first_name'] = 'Le champ first_name est requis';
         }
         if (empty($data['last_name'])) {
-            $inputErrors['last_name'] = 'Lastname is requiered';
+            $inputErrors['last_name'] = 'Le champ last_name est requis';
         }
 
         if (empty($data['email'])) {
-            $inputErrors['email'] = 'A valid email is requiered';
+            $inputErrors['email'] = 'Le champ email est requis';
         } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-            $inputErrors['email'] = 'A valid email is requiered';
+            $inputErrors['email'] = 'Le champ email doit être valide';
         }
         $inputErrors ? $errors['errors'] =  $inputErrors : null;
 
@@ -79,22 +79,20 @@ final class UserCreator
     }
     
     /**
-     * Output validation.
+     * Validation de sorties.
      *
-     * @param array $data The LGBD result data
+     * @param array $data Les données sortantes `à valider
      *
-     * @return array An array containing errors if any
+     * @return array Un array contenant les erreurs ou $data
      */
     private function validateUserSelectionOutput(array $data): array
     {
-        // Here you can also use your preferred validation library
-
         $errors = [];
         $outputErrors = null;
 
         if (empty($data)) {
-           $outputErrors['errorDescription'] = 'Failed inserting the user';
-           $outputErrors['username'] = 'Username must be unique';
+           $outputErrors['errorDescription'] = "Échec de l'insertion de l'usager";
+           $outputErrors['username'] = "Le champ username n'est pas unique";
            $errors['errors'] =  $outputErrors;
         }
         

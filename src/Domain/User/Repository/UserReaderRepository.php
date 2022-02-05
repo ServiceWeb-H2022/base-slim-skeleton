@@ -10,14 +10,14 @@ use PDO;
 class UserReaderRepository
 {
     /**
-     * @var PDO The database connection
+     * @var PDO La connection au LGBD
      */
     private $connection;
 
     /**
      * Constructor.
      *
-     * @param PDO $connection The database connection
+     * @param PDO $connection La connection au LGBD
      */
     public function __construct(PDO $connection)
     {
@@ -27,22 +27,22 @@ class UserReaderRepository
     /**
      * Read user row.
      *
-     * @param int $userId The user ID
+     * @param int $usagerId L'id de l'usager
      *
-     * @return array bool The fetched user stdArray
+     * @return array Un array clées : valeurs des données de l'usager
      */
-    public function selectUser(int $userId): array
+    public function selectUser(int $usagerId): array
     {
         $cond = [
-            $userId
+            $usagerId
         ];
         $sql = "SELECT * FROM USERS WHERE id= ?;";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute($cond);
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? $result: [];
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultat ? $resultat: [];
 
     }
 }

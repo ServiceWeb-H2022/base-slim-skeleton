@@ -1,36 +1,32 @@
 <?php
 
-// Error reporting for production
+// Rapport d'erreur en version production
 error_reporting(0);
 ini_set('display_errors', '0');
 
-// Timezone
+// Fuseau horraire
 date_default_timezone_set('Europe/Berlin');
 
-// Settings
+// Array des paramêtres
 $settings = [];
 
-// Path settings
+// Chemin d'accès
 $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
 
-// Error Handling Middleware settings
+// Middleware pour les erreurs
 $settings['error'] = [
 
-    // Should be set to false in production
+    // Devrait être à 'false' en production
     'display_error_details' => true,
 
-    // Parameter is passed to the default ErrorHandler
-    // View in rendered output by enabling the "displayErrorDetails" setting.
-    // For the console and unit tests we also disable it
+    // Seront gérée par le gestionnaire d'erreur par défault
     'log_errors' => true,
-
-    // Display error details in error log
     'log_error_details' => true,
 ];
 
-// Database settings
+// Paramêtres pour la connection LGBD
 $settings['db'] = [
     'driver' => 'mysql',
     'host' => 'localhost',
@@ -53,7 +49,7 @@ $settings['db'] = [
     ],
 ];
 
-// Logger settings
+// Configuration d'un logger par défault
 $settings['logger'] = [
     'name' => 'app',
     'path' => __DIR__ . '/../logs',

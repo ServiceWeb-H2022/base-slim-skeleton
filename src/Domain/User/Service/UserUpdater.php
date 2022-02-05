@@ -16,7 +16,7 @@ final class UserUpdater
     private $updateRepository;
 
     /**
-     * The constructor.
+     * Le constructeur.
      *
      * @param UserUpdaterRepository $updateRepository The updateRepository
      */
@@ -27,31 +27,33 @@ final class UserUpdater
     }
 
     /**
-     * Update a user.
+     * Update a usager.
      *
-     * @param array $data The form data
+     * @param array $data L'array de données
      *
-     * @return array The user ID in an array or an error array
+     * @return array L'id de l'usager in an array ou un array d'erreurs
      */
     public function updateUser(array $data): array
     {
-        // Input validation
-        $result = $this->validateUserInput($data);
+        // Validation d'entrées
+        $resultat = $this->validateUserInput($data);
 
-        if(! $result['validation-errors']){
-            // Update user
-            $result = $this->updateRepository->UpdateUser($data);
-            $result =  $this->validateUserUpdateOutput($result);
+        if(! $resultat['validation-errors']){
+            // Mise à jour Usager
+            $resultat = $this->updateRepository->UpdateUser($data);
+
+            // Validation des sorties
+            $resultat =  $this->validateUserUpdateOutput($resultat);
         }
-        return $result;
+        return $resultat;
     }
 
     /**
-     * Input validation.
+     * Validation d'entrées.
      *
-     * @param array $data The input data to update the user
+     * @param array $data Les données entrantes à valider
      *
-     * @return array An array containing errors if any
+     * @return array Un array contenant les erreurs ou $data
      */
     private function validateUserInput(array $data): array
     {
@@ -60,7 +62,7 @@ final class UserUpdater
 
         if($data['email']){
             if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
-                $inputErrors['email'] = 'Email must be valid';
+                $inputErrors['email'] = 'Le champ email doit être valide';
             }
         }
        
@@ -70,11 +72,11 @@ final class UserUpdater
     }
     
     /**
-     * Output validation.
+     * Validation de sorties.
      *
-     * @param array $data The LGBD result data
+     * @param array $data Les données sortantes `à valider
      *
-     * @return array An array containing errors if any
+     * @return array Un array contenant les erreurs ou $data
      */
     private function validateUserUpdateOutput(array $data): array
     {
@@ -82,8 +84,8 @@ final class UserUpdater
         $outputErrors = null;
 
         if (empty($data)) {
-           $outputErrors['errorDescription'] = 'Failed Updating the user';
-           $outputErrors['username'] = 'Username must be unique';
+           $outputErrors['errorDescription'] = "Échec de la mise à jour de l'usager";
+           $outputErrors['username'] = "Le champ username n'est pas unique";
            $errors['validation-errors'] =  $outputErrors;
         }
         return $outputErrors ? $errors : $data;

@@ -18,9 +18,9 @@ final class UserReader
     private $repository;
 
     /**
-     * The constructor.
+     * Le constructeur.
      *
-     * @param UserReaderRepository $repository The repository
+     * @param UserReaderRepository $repository Le "respository"
      */
     public function __construct(UserReaderRepository $repository)
     {
@@ -30,39 +30,41 @@ final class UserReader
     /**
      * Read a user
      *
-     * @param int $userId the user ID
+     * @param int $usagerId L'id de l'usager
      *
-     * @return array The fetched user array
+     * @return array Les données sortantes de l'usager
      */
-    public function selectUser(int $userId): array
+    public function selectUser(int $usagerId): array
     {
-        // Select user
-        $result = $this->repository->selectUser($userId);
-        $result = $this->validateUserSelection($result);
+        // Selection de l'usager
+        $resultat = $this->repository->selectUser($usagerId);
+
+        // Validation des sorties
+        $resultat = $this->validateUserSelection($resultat);
 
         // Logging here: User selected successfully
-        //$this->logger->info(sprintf('User selected successfully: %s', $userId));
+        //$this->logger->info(sprintf('User selected successfully: %s', $usagerId));
 
-        return $result;
+        return $resultat;
     }
 
 
     /**
-     * Input validation.
+     * Validation d'entrées.
      *
-     * @param array $data The form data
+     * @param array $data L'array de données
      *
      * @return array
      */
     private function validateUserSelection(array $data): array
     {
-        // Here you can also use your preferred validation library
+        
         $errors = [];
         $rqstErrors = null;
 
         if (empty($data) ) {
-           $rqstErrors['errorDescription'] = 'Failed selecting the user associated to this ID';
-           $rqstErrors['users/{id}'] = 'User with this ID not found';
+           $rqstErrors['errorDescription'] = "Échec de la selection de l'usager";
+           $rqstErrors['users/{id}'] = 'Aucun usager associé à cet identifiant';
            $errors['notFound-errors'] =  $rqstErrors;
         }
         // throw new ValidationException('Please check your input', $errors);

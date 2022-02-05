@@ -9,31 +9,39 @@ use Slim\Psr7\Response;
 
 final class UserReadAction
 {
-    private $userReader;
+    private $usagerReader;
 
-    public function __construct(UserReader $userReader)
+    public function __construct(UserReader $usagerReader)
     {
-        $this->userReader = $userReader;
+        $this->userReader = $usagerReader;
     }
 
     public function __invoke(
         ServerRequestInterface $request, 
         ResponseInterface $response
     ): ResponseInterface {  
-        // Collect input from the HTTP request
+        // Collecte les données à partir de la requête HTTP
         $data = (object)$request->getAttributes();
 
-        // Invoke the Domain with inputs and retain the result
-        $result = $this->userReader->selectUser($data->id);
+        // Invoque le Domaine avec les données en entrée et retourne le résultat
+        $resultat = $this->userReader->selectUser($data->id);
 
-        return $this->respondWithFormat($result, $response);
+        return $this->respondWithFormat($resultat, $response);
     }
 
+
+    /**
+     * @param array $data Les données qui seront utiliser pour la réponse
+     * 
+     * @param Response $response l'objet réponse pour la requête en cours
+     * 
+     * @return Response $response La réponse fromaté selon l'algorithme
+     */
     private function respondWithFormat(array $data, Response $response): Response {
         
         $errors = $data['errors'] ? true : false;
 
-        // Build the HTTP response
+        // Envoit les résultats dans le body de la réponse
         $response->getBody()->write((string)json_encode($data));
 
         if($errors){

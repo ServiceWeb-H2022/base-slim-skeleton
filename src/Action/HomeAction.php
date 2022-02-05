@@ -12,12 +12,12 @@ final class HomeAction
         ResponseInterface $response
     ): ResponseInterface {
         
-        $result = json_encode([
+        $resultat = json_encode([
             'success' => true, 
             'message' => 'Hello world!'
         ]);
         
-        $response->getBody()->write($result);
+        $response->getBody()->write($resultat);
 
         return $response->withHeader('Content-Type', 'application/json');
         

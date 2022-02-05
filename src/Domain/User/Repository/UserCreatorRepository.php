@@ -10,14 +10,14 @@ use PDO;
 class UserCreatorRepository
 {
     /**
-     * @var PDO The database connection
+     * @var PDO La connection au LGBD
      */
     private $connection;
 
     /**
      * Constructor.
      *
-     * @param PDO $connection The database connection
+     * @param PDO $connection La connection au LGBD
      */
     public function __construct(PDO $connection)
     {
@@ -25,20 +25,20 @@ class UserCreatorRepository
     }
 
     /**
-     * Insert user row.
+     * Insertion de l'usager row.
      *
-     * @param array $user The user
+     * @param array $usager The user
      *
-     * @return array The new ID in an array or an empty array
+     * @return array The nouveau ID in an array or an empty array
      */
-    public function insertUser(array $user): array
+    public function insertUser(array $usager): array
     {
-        $result = [];
-        $row = [
-            'username' => $user['username'],
-            'first_name' => $user['first_name'],
-            'last_name' => $user['last_name'],
-            'email' => $user['email'],
+        $resultat = [];
+        $ligne = [
+            'username' => $usager['username'],
+            'first_name' => $usager['first_name'],
+            'last_name' => $usager['last_name'],
+            'email' => $usager['email'],
         ];
 
         $sql = "INSERT INTO users SET 
@@ -49,7 +49,7 @@ class UserCreatorRepository
 
         try {
             //code...
-            $this->connection->prepare($sql)->execute($row);
+            $this->connection->prepare($sql)->execute($ligne);
         } catch (\Throwable $th) {
             return [];
         }

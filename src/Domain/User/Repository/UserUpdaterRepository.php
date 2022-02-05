@@ -10,14 +10,14 @@ use PDO;
 class UserUpdaterRepository
 {
     /**
-     * @var PDO The database connection
+     * @var PDO La connection au LGBD
      */
     private $connection;
 
     /**
      * Constructor.
      *
-     * @param PDO $connection The database connection
+     * @param PDO $connection La connection au LGBD
      */
     public function __construct(PDO $connection)
     {
@@ -25,20 +25,20 @@ class UserUpdaterRepository
     }
 
     /**
-     * Update user row.
+     * Mise à jour d'un usager.
      *
-     * @param array $user The user data
+     * @param array $usager Donnée de l'usager
      *
-     * @return array The user array or an empty array
+     * @return array Un array contenant l'id de l'usager ou vide
      */
-    public function UpdateUser(array $user): array
+    public function UpdateUser(array $usager): array
     {
         try {
-            $result = [];
+            $resultat = [];
 
-            $row = [];
-            foreach ($user as $key => $value) {
-                $row[$key] = $value;
+            $ligne = [];
+            foreach ($usager as $cle => $valeur) {
+                $ligne[$cle] = $valeur;
             }
 
             $sql = "Update users SET 
@@ -48,8 +48,8 @@ class UserUpdaterRepository
             email=:email
             WHERE id=:id;";
 
-            $this->connection->prepare($sql)->execute($row);
-            return [ "userId" => $user['id'] ];
+            $this->connection->prepare($sql)->execute($ligne);
+            return [ "userId" => $usager['id'] ];
             
         } catch (\Throwable $th) {
             return [];

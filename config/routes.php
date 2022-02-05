@@ -27,7 +27,10 @@ return function (App $app) {
      */
      $app->group('/users/{id:[0-9]+}', function (RouteCollectorProxy $group) {
          $group->get('', \App\Action\UserReadAction::class);
+
+         // TODO: Gestion d'update de champs singulier et/ou multiple
          $group->put('', \App\Action\UserUpdateAction::class);
+         
          $group->delete('', \App\Action\UserDeleteAction::class);
      });
 

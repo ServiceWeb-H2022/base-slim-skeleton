@@ -15,9 +15,9 @@ return function (App $app) {
      * GET	    /users/	 Selection des usagers
      * POST	    /users/	 Insertion d'un usager
      */
-    $app->group('/users}', function (RouteCollectorProxy $group) {
-        $group->get('/{order}', \App\Action\UserCreateAction::class);
-        $group->post('/users', \App\Action\UserCreateAction::class);
+    $app->group('/users/', function (RouteCollectorProxy $group) {
+        $group->get('{order}', \App\Action\UserReadAction::class);
+        $group->post('', \App\Action\UserCreateAction::class);
     });
 
     /**

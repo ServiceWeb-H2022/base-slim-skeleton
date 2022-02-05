@@ -1,4 +1,5 @@
-vendor/
-.history/
-.vscode/
+vendor/*
+.history/*
+.vscode/*
 config/settings.php
+prod/*

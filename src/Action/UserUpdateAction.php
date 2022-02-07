@@ -27,7 +27,8 @@ final class UserUpdateAction
     ): ResponseInterface {
         // Collecte les données à partir de la requête HTTP
         $data = (array)$request->getParsedBody();
-        $data['id'] = (int)$request->getAttribute('id');
+        $queryParams = $request->getQueryParams() ?? [];
+        $data['id'] = $queryParams['id'] ?? 0;
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
         $updateResult = $this->userReader->selectUser($data['id']);

@@ -21,10 +21,10 @@ final class UserReadAction
         ResponseInterface $response
     ): ResponseInterface {  
         // Collecte les données à partir de la requête HTTP
-        $data = (object)$request->getAttributes();
+        $queryParams = $request->getQueryParams() ?? [];
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
-        $resultat = $this->userReader->selectUser($data->id);
+        $resultat = $this->userReader->selectUser($queryParams['id'] ?? 0);
 
         return $this->respondWithFormat($resultat, $response);
     }

@@ -10,15 +10,15 @@ use Slim\Psr7\Response;
 
 final class UserDeleteAction
 {
-    private $usagerDeleter;
-    private $usagerReader;
+    private $userDeleter;
+    private $userReader;
 
     public function __construct(
-        UserDeleter $usagerDeleter,
-        UserReader $usagerReader)
+        UserDeleter $userDeleter,
+        UserReader $userReader)
     {
-        $this->userDeleter = $usagerDeleter;
-        $this->userReader = $usagerReader;
+        $this->userDeleter = $userDeleter;
+        $this->userReader = $userReader;
     }
 
     public function __invoke(

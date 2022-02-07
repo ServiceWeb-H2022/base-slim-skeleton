@@ -129,7 +129,7 @@ paths:
         security:
         x-codegen-request-body-name: body
 
-  /users/{id}:
+  /user/{id}:
       put:
         tags: 
           - All Put

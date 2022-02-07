@@ -9,11 +9,11 @@ use Slim\Psr7\Response;
 
 final class UserReadAction
 {
-    private $usagerReader;
+    private $userReader;
 
-    public function __construct(UserReader $usagerReader)
+    public function __construct(UserReader $userReader)
     {
-        $this->userReader = $usagerReader;
+        $this->userReader = $userReader;
     }
 
     public function __invoke(

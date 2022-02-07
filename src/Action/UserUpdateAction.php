@@ -10,15 +10,15 @@ use Slim\Psr7\Response;
 
 final class UserUpdateAction
 {
-    private $usagerUpdater;
-    private $usagerReader;
+    private $userUpdater;
+    private $userReader;
 
     public function __construct(
-        UserUpdater $usagerUpdater,
-        UserReader $usagerReader)
+        UserUpdater $userUpdater,
+        UserReader $userReader)
     {
-        $this->userUpdater = $usagerUpdater;
-        $this->userReader = $usagerReader;
+        $this->userUpdater = $userUpdater;
+        $this->userReader = $userReader;
     }
 
     public function __invoke(

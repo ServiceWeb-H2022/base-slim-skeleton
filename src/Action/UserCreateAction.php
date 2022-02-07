@@ -9,11 +9,11 @@ use Slim\Psr7\Response;
 
 final class UserCreateAction
 {
-    private $usagerCreator;
+    private $userCreator;
 
-    public function __construct(UserCreator $usagerCreator)
+    public function __construct(UserCreator $userCreator)
     {
-        $this->userCreator = $usagerCreator;
+        $this->userCreator = $userCreator;
     }
 
     public function __invoke(

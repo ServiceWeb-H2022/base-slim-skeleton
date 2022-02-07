@@ -60,7 +60,7 @@ final class UserDeleter
         $inputErrors = null;
 
         if($data['id'] == 0){
-            $inputErrors['users/{id}'] = 'Aucun usager associé à cet identifiant';
+            $inputErrors['user/{id}'] = 'Aucun usager associé à cet identifiant';
             
         }
        
@@ -83,7 +83,7 @@ final class UserDeleter
 
         if (empty($data)) {
             $outputErrors['errorDescription'] = "Échec de la suppression de l'usager";
-            $outputErrors['users/{id}'] = 'Aucun usager associé à cet identifiant';
+            $outputErrors['user/{id}'] = 'Aucun usager associé à cet identifiant';
             $errors['validation-errors'] =  $outputErrors;
         }
         return $outputErrors ? $errors : $data;

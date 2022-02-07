@@ -11,12 +11,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{localUrl}}/users/101",
+					"raw": "{{localUrl}}/user/101",
 					"host": [
 						"{{localUrl}}"
 					],
 					"path": [
-						"users",
+						"user",
 						"101"
 					]
 				}
@@ -48,7 +48,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\":\"bobTest999\",\"email\":\"jhoverta@microsoft.com\",\"first_name\":\"Jarad\",\"last_name\":\"Hovert\"}",
+					"raw": "{\r\n    \"username\": \"bobTest999xxx\",\r\n    \"email\": \"jhoverta@microsoft.com\",\r\n    \"first_name\": \"Jarad\",\r\n    \"last_name\": \"Hovert\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -56,13 +56,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{localUrl}}/users/",
+					"raw": "{{localUrl}}/users",
 					"host": [
 						"{{localUrl}}"
 					],
 					"path": [
-						"users",
-						""
+						"users"
 					]
 				}
 			},
@@ -83,13 +82,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{localUrl}}/users/100",
+					"raw": "{{prodUrl}}/users/10",
 					"host": [
-						"{{localUrl}}"
+						"{{prodUrl}}"
 					],
 					"path": [
 						"users",
-						"100"
+						"10"
 					]
 				}
 			},

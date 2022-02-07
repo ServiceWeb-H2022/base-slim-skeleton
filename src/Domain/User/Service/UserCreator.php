@@ -36,7 +36,7 @@ final class UserCreator
         // Validation d'entrées
         $resultat = $this->validateNewUserInput($data);
 
-        if(! $resultat['errors']){
+        if(! $resultat['validation-errors']){
             // Insertion de l'usager
             $resultat = $this->repository->insertUser($data);
 
@@ -73,7 +73,7 @@ final class UserCreator
         } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
             $inputErrors['email'] = 'Le champ email doit être valide';
         }
-        $inputErrors ? $errors['errors'] =  $inputErrors : null;
+        $inputErrors ? $errors['validation-errors'] =  $inputErrors : null;
 
         return $errors;
     }
@@ -93,7 +93,7 @@ final class UserCreator
         if (empty($data)) {
            $outputErrors['errorDescription'] = "Échec de l'insertion de l'usager";
            $outputErrors['username'] = "Le champ username n'est pas unique";
-           $errors['errors'] =  $outputErrors;
+           $errors['validation-errors'] =  $outputErrors;
         }
         
         return $outputErrors ? $errors : $data;

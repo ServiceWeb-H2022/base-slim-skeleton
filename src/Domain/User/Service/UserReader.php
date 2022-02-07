@@ -64,7 +64,7 @@ final class UserReader
 
         if (empty($data) ) {
            $rqstErrors['errorDescription'] = "Échec de la selection de l'usager";
-           $rqstErrors['users/{id}'] = 'Aucun usager associé à cet identifiant';
+           $rqstErrors['user/{id}'] = 'Aucun usager associé à cet identifiant';
            $errors['notFound-errors'] =  $rqstErrors;
         }
         // throw new ValidationException('Please check your input', $errors);

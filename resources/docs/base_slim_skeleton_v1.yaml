@@ -326,7 +326,7 @@ components:
             errrorDescription:
               type: string
               example: Échec de la selection de l'usager
-            users/{id}:
+            user/{id}:
               type: string
               example: Aucun usager associé à cet identifiant
       

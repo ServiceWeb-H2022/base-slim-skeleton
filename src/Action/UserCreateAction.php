@@ -43,12 +43,14 @@ final class UserCreateAction
     private function respondWithFormat(array $data, Response $response): Response {
         
         $errors = $data['errors'] ? true : false;
+        $notFoundErrors = $data['notFound-errors'] ? true : false;
+        $validationErrors = $data['validation-errors'] ? true : false;
 
         // Envoit les résultats dans le body de la réponse
         $response->getBody()->write((string)json_encode($data));
 
 
-        if($errors){
+        if($validationErrors){
             // Logging here: User creation failed
             //$this->logger->info(sprintf('User was not created: %s', $resultat));
             return $response

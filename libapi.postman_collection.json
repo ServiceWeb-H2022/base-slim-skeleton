@@ -11,13 +11,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{localUrl}}/user/101",
+					"raw": "{{localUrl}}/user/10000",
 					"host": [
 						"{{localUrl}}"
 					],
 					"path": [
 						"user",
-						"101"
+						"10000"
 					]
 				}
 			},
@@ -29,13 +29,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{localUrl}}/users/520000",
+					"raw": "{{localUrl}}/user/52",
 					"host": [
 						"{{localUrl}}"
 					],
 					"path": [
-						"users",
-						"520000"
+						"user",
+						"52"
 					]
 				}
 			},
@@ -82,12 +82,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{prodUrl}}/users/10",
+					"raw": "{{localUrl}}/user/10",
 					"host": [
-						"{{prodUrl}}"
+						"{{localUrl}}"
 					],
 					"path": [
-						"users",
+						"user",
 						"10"
 					]
 				}

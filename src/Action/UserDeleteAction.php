@@ -28,7 +28,7 @@ final class UserDeleteAction
 
         // Collecte les données à partir de la requête HTTP
         $data = (array)$request->getParsedBody();
-        $data['id'] = (int)$request->getAttribute('id');
+        $data['id'] = (int)$request->getAttribute('id') ?? 00;
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
         $selectResult = $this->userReader->selectUser($data['id']);

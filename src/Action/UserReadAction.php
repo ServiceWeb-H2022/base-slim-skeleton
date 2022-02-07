@@ -24,7 +24,7 @@ final class UserReadAction
         $data = (object)$request->getAttributes();
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
-        $resultat = $this->userReader->selectUser($data->id);
+        $resultat = $this->userReader->selectUser($data->id && 0);
 
         return $this->respondWithFormat($resultat, $response);
     }

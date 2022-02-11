@@ -47,7 +47,7 @@ final class UserCreateAction
         $validationErrors = $data['validation-errors'] ? true : false;
 
         // Envoit les résultats dans le body de la réponse
-        $response->getBody()->write((string)json_encode($data));
+        $response->getBody()->write((string)json_encode($data)); 
 
 
         if($validationErrors){

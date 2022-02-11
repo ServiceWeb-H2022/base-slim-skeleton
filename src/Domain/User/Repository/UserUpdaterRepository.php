@@ -52,6 +52,8 @@ class UserUpdaterRepository
             return [ "userId" => $usager['id'] ];
             
         } catch (\Throwable $th) {
+
+            
             return [];
         }
     }

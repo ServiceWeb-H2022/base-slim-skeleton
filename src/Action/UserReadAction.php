@@ -43,6 +43,8 @@ final class UserReadAction
         $notFoundErrors = $data['notFound-errors'] ? true : false;
         $validationErrors = $data['validation-errors'] ? true : false;
 
+        
+
         // Envoit les résultats dans le body de la réponse
         $response->getBody()->write((string)json_encode($data));
 
@@ -54,6 +56,6 @@ final class UserReadAction
 
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus(201);
+            ->withStatus(200);
     }
 }

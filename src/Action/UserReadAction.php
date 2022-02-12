@@ -3,6 +3,7 @@
 namespace App\Action;
 
 use App\Domain\User\Service\UserReader;
+use App\Factory\LoggerFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Psr7\Response;
@@ -10,22 +11,34 @@ use Slim\Psr7\Response;
 final class UserReadAction
 {
     private $userReader;
+    private $logger;
+    private $data;
 
-    public function __construct(UserReader $userReader)
+    public function __construct(UserReader $userReader, LoggerFactory $loggerFactory)
     {
+        $this->logger = $loggerFactory
+        ->addFileHandler('test.log')
+        ->createLogger("LoggerTest");
+
         $this->userReader = $userReader;
     }
 
     public function __invoke(
-        ServerRequestInterface $request, 
+        ServerRequestInterface $request,
         ResponseInterface $response
-    ): ResponseInterface {  
+    ): ResponseInterface {
+
+        //TODO: Remplacer $data par un constructeur ou un factory
         // Collecte les données à partir de la requête HTTP
-        $data = (object)$request->getAttributes();
+        $attribs = (object)$request->getAttributes() ?? null;
+        $params = (object)$request->getQueryParams() ?? null;
+        $body = (object)$request->getParsedBody() ?? null;
+        $this->data = (object)["attribs"=>$attribs,"params"=>$params,"body"=>$body];
 
         // Invoque le Domaine avec les données en entrée et retourne le résultat
         $resultat = $this->userReader->selectUser($data->id ?? 0);
 
+        $resultat = $this->userReader->selectUser($this->data);
         return $this->respondWithFormat($resultat, $response);
     }
 

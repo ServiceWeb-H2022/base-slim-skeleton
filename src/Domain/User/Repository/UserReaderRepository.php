@@ -25,27 +25,37 @@ class UserReaderRepository
     }
 
     /**
-     * Read user row.
+     * Read a single user row.
      *
-     * @param int $usagerId L'id de l'usager
+     * @param object $querryObj 
      *
      * @return array Un array clées : valeurs des données de l'usager
      */
-    public function selectUser(int $usagerId): array
+    public function selectSingleUser(object $querryObj): array
     {
-        $cond = [
-            $usagerId
-        ];
+        // TODO: Utiliser les propriétées du queryObj avec le DBO
+
         $sql = "SELECT * FROM users WHERE id= ?;";
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->execute($cond);
-
+        $stmt = $this->connection->prepare($querryObj->sql);
+        $stmt->execute($querryObj->cond);
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        
         return $resultat ? $resultat: [];
+    }
 
+    /**
+     * Selectione plusieurs utilisateurs selon les conditions
+     *
+     * @param object $querryObj 
+     *
+     * @return array Un array clées(userId) : valeurs(infos) des users
+     */
+    public function selectManyUsers(object $querryObj): array
+    {
+        $sql = "SELECT * FROM users WHERE id= ?;";
+        $stmt = $this->connection->prepare($querryObj->sql);
+        $stmt->execute($querryObj->cond);
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultat ? $resultat: [];
     }
 }
 

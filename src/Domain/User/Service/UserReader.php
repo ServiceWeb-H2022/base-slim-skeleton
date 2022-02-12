@@ -5,6 +5,8 @@ namespace App\Domain\User\Service;
 use App\Domain\User\Repository\UserReaderRepository;
 use App\Exception\ValidationException;
 
+use function PHPUnit\Framework\isEmpty;
+
 /**
  * Service.
  */
@@ -26,28 +28,22 @@ final class UserReader
     }
 
     /**
-     * Read users
+     * Read a user
      *
-     * @param object $dataObj l'objet contenants le data pour la requete
+     * @param int $usagerId L'id de l'usager
      *
      * @return array Les données sortantes de l'usager
      */
-    public function selectUser(object $dataObj): array
+    public function selectUser(int $usagerId): array
     {
+        // Selection de l'usager
+        $resultat = $this->repository->selectUser($usagerId);
 
-        //TODO: Crée un constructeur ou méthodes pour le querryObj
+        // Validation des sorties
+        $resultat = $this->validateUserSelection($resultat);
 
-        // Selection d"un usager
-        if($dataObj->attribs->id){
-            $querryObj = $dataObj;
-            $resultat = $this->repository->selectSingleUser($querryObj);
-        }
-
-        // Selection de plusieurs usagers
-        else {
-            $querryObj = $dataObj;
-            $resultat = $this->repository->selectManyUsers($querryObj);
-        }
+        // Logging here: User selected successfully
+        //$this->logger->info(sprintf('User selected successfully: %s', $usagerId));
 
         return $resultat;
     }

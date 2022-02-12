@@ -51,8 +51,6 @@ return [
         return new PDO($dsn, $username, $password, $flags);
     },
     
-
-    // Initialise un Logger par le factory en utilisant les params de l'app/conteneur
     LoggerFactory::class => function (ContainerInterface $container) {
         return new LoggerFactory($container->get('settings')['logger']);
     },

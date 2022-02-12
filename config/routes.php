@@ -6,10 +6,6 @@ use Slim\App;
 
 return function (App $app) {
 
-    //Route test-x
-    $app->get('/test', \App\Action\HomeAction::class)->setName('Tests');
-
-
     // Documentation de l'api
     $app->get('/docs', \App\Action\Docs\SwaggerUiAction::class);
     $app->get('/', \App\Action\Docs\SwaggerUiAction::class)->setName('Docs');
@@ -20,10 +16,8 @@ return function (App $app) {
      * POST	    Insertion d'un usager
      */
     $app->group('/users', function (RouteCollectorProxy $group) {
-        $group->get('[/{filter}/{order}/{limit}/{include}/{exclude}/]', 
-            \App\Action\UserReadAction::class
-        );
-        $group->post('', \App\Action\UserReadAction::class);
+        $group->get('', \App\Action\UsersReadAction::class);
+        $group->post('', \App\Action\UserCreateAction::class);
     });
 
     /**
